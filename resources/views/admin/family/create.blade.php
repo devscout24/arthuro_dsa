@@ -1,0 +1,107 @@
+@extends('backend.app')
+
+@section('title', 'Add Carrer')
+
+@section('content')
+    <div class="container-fluid mt-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Add Carrer</h4>
+                <a href="{{ route('admin.family.index') }}" class="btn btn-primary btn-sm">
+                    Family List
+                </a>
+            </div>
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            <div class="card-body">
+
+                <form action="{{ route('admin.family.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="row g-3">
+
+                        <div class="col-12">
+                            <label class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" placeholder="Enter title"
+                                value="{{ old('title') }}">
+
+                            @error('title')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+
+                            <textarea name="description" class="form-control summernote" placeholder="Enter description">{{ old('description') }}</textarea>
+
+                            @error('description')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Image</label>
+
+                            <input type="file" name="image" class="form-control dropify"
+                                data-allowed-file-extensions="jpg jpeg png gif">
+
+                            @error('image')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+@endsection
+
+
+{{-- Summernote CSS --}}
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" rel="stylesheet">
+@endpush
+
+
+{{-- Summernote JS --}}
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('.summernote').summernote({
+                height: 200,
+                placeholder: "Write description here...",
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'italic', 'clear']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['insert', ['link', 'picture']],
+                    ['view', ['fullscreen', 'codeview']]
+                ]
+            });
+
+        });
+    </script>
+@endpush
