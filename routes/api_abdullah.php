@@ -99,3 +99,6 @@ Route::get('/admin/informations/index', [BannerApiController::class, 'informatio
 
 // footer down
 Route::get('/admin/footer-downs/index', [BannerApiController::class, 'footerDownindex']);
+
+// cookie
+Route::get('/admin/cookies/index', [BannerApiController::class, 'cookieindex']);

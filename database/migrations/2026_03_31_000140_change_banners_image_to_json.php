@@ -12,6 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
+        $driver = DB::connection()->getDriverName();
+        if (!in_array($driver, ['mysql', 'mariadb'], true)) {
+            // SQLite/Postgres don't have INFORMATION_SCHEMA in the same way,
+            // and SQLite treats JSON columns as TEXT anyway.
+            return;
+        }
+
         if (!Schema::hasTable('banners') || !Schema::hasColumn('banners', 'image')) {
             return;
         }
@@ -70,6 +77,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        $driver = DB::connection()->getDriverName();
+        if (!in_array($driver, ['mysql', 'mariadb'], true)) {
+            return;
+        }
+
         if (!Schema::hasTable('banners') || !Schema::hasColumn('banners', 'image')) {
             return;
         }

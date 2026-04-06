@@ -9,6 +9,7 @@ use App\Models\Building;
 use App\Models\Carrer;
 use App\Models\CarrerUp;
 use App\Models\ContactDynamic;
+use App\Models\Cookie;
 use App\Models\Exception;
 use App\Models\Explore;
 use App\Models\Family;
@@ -158,8 +159,8 @@ class BannerApiController extends Controller
             return [
                 'id' => $team->id,
                 'title' => $team->title,
-                'designation' => $team->designation,
-                'image' => $team->image ? asset('teams/' . $team->image) : null,
+                'designation' => $this->stripTagsOrNull($team->designation),
+                'image' => $this->assetFileOrUrl($team->image, 'teams'),
             ];
         });
 
@@ -196,8 +197,9 @@ class BannerApiController extends Controller
                 'numbers' => $item->numbers,
                 'tagline' => $item->tagline,
                 'title' => $item->title,
-                'description' => $item->description,
-                'question' => $item->question,
+                'description' => $this->stripTagsOrNull($item->description),
+                'question' => $this->stripTagsOrNull($item->question),
+                'link' => $item->link,
             ];
         });
 
@@ -217,7 +219,7 @@ class BannerApiController extends Controller
                 'id' => $item->id,
                 'title' => $item->title,
                 'description' => $this->stripTagsOrNull($item->description),
-                'image' => $item->image ? asset('images/' . $item->image) : null,
+                'image' => $this->assetFileOrUrl($item->image, 'images'),
                 'button' => $item->button,
             ];
         });
@@ -236,7 +238,7 @@ class BannerApiController extends Controller
             return [
                 'id' => $partner->id,
                 'title' => $partner->title,
-                'image' => $partner->image ? asset('images/' . $partner->image) : null,
+                'image' => $this->assetFileOrUrl($partner->image, 'images'),
             ];
         });
 
@@ -274,7 +276,7 @@ class BannerApiController extends Controller
                 'title' => $horizon->title,
                 'tagline' => $horizon->tagline,
                 'description' => $this->stripTagsOrNull($horizon->description),
-                'image' => $horizon->image ? asset('images/' . $horizon->image) : null,
+                'image' => $this->assetFileOrUrl($horizon->image, 'images'),
             ];
         });
 
@@ -293,7 +295,7 @@ class BannerApiController extends Controller
                 'title' => $explore->title,
                 'tagline' => $explore->tagline,
                 'description' => $this->stripTagsOrNull($explore->description),
-                'image' => $explore->image ? asset('images/' . $explore->image) : null,
+                'image' => $this->assetFileOrUrl($explore->image, 'images'),
             ];
         });
 
@@ -313,7 +315,7 @@ class BannerApiController extends Controller
                 'title' => $founder->title,
                 'description' => $this->stripTagsOrNull($founder->description),
                 'designation' => $this->stripTagsOrNull($founder->designation),
-                'image' => $founder->image ? asset('founders/' . $founder->image) : null,
+                'image' => $this->assetFileOrUrl($founder->image, 'founders'),
             ];
         });
 
@@ -457,7 +459,7 @@ class BannerApiController extends Controller
             return [
                 'id' => $item->id,
                 'title' => $item->title,
-                'description' => $item->description,
+                'description' => $this->stripTagsOrNull($item->description),
             ];
         });
 
@@ -496,6 +498,7 @@ class BannerApiController extends Controller
                 'title' => $future->title,
                 'description' => $this->stripTagsOrNull($future->description),
                 'button' => $future->button,
+                'tagline' => $future->tagline,
             ];
         });
 
@@ -513,9 +516,11 @@ class BannerApiController extends Controller
                 'id' => $already->id,
                 'title' => $already->title,
                 'description' => $this->stripTagsOrNull($already->description),
-                'tag_header' => $already->tag_header,
-                'tag_body' => $already->tag_body,
-                'tag_number' => $already->tag_number,
+                // DB column is tag_head; keep tag_header as legacy alias.
+                'tag_head' => $this->normalizeToArray($already->tag_head),
+                'tag_header' => $this->normalizeToArray($already->tag_head),
+                'tag_body' => $this->normalizeToArray($already->tag_body),
+                'tag_number' => $this->normalizeToArray($already->tag_number),
             ];
         });
 
@@ -533,7 +538,7 @@ class BannerApiController extends Controller
                 'id' => $negotiable->id,
                 'title' => $negotiable->title,
                 'description' => $this->stripTagsOrNull($negotiable->description),
-                'tagline' => $negotiable->tagline,
+                'tagline' => $this->normalizeToArray($negotiable->tagline),
             ];
         });
 
@@ -646,10 +651,22 @@ class BannerApiController extends Controller
         $socialMedias = SocialSetting::all()->map(function ($socialMedia) {
             return [
                 'id' => $socialMedia->id,
+                'facebook_icon' => $this->assetFileOrUrl($socialMedia->facebook_icon, 'uploads/social-icons'),
+                'facebook_link' => $socialMedia->facebook_link,
                 'instagram_icon' => $this->assetFileOrUrl($socialMedia->instagram_icon, 'uploads/social-icons'),
                 'instagram_link' => $socialMedia->instagram_link,
+                'twitter_icon' => $this->assetFileOrUrl($socialMedia->twitter_icon, 'uploads/social-icons'),
+                'twitter_link' => $socialMedia->twitter_link,
+                'tiktok_icon' => $this->assetFileOrUrl($socialMedia->tiktok_icon, 'uploads/social-icons'),
+                'tiktok_link' => $socialMedia->tiktok_link,
+                'whatsapp_icon' => $this->assetFileOrUrl($socialMedia->whatsapp_icon, 'uploads/social-icons'),
+                'whatsapp_link' => $socialMedia->whatsapp_link,
                 'linkedin_icon' => $this->assetFileOrUrl($socialMedia->linkedin_icon, 'uploads/social-icons'),
                 'linkedin_link' => $socialMedia->linkedin_link,
+                'telegram_icon' => $this->assetFileOrUrl($socialMedia->telegram_icon, 'uploads/social-icons'),
+                'telegram_link' => $socialMedia->telegram_link,
+                'youtube_icon' => $this->assetFileOrUrl($socialMedia->youtube_icon, 'uploads/social-icons'),
+                'youtube_link' => $socialMedia->youtube_link,
             ];
         });
 
@@ -667,6 +684,10 @@ class BannerApiController extends Controller
                 'id' => $systemSetting->id,
                 'system_title' => $systemSetting->system_title,
                 'company_name' => $systemSetting->company_name,
+                'tag_line' => $systemSetting->tag_line,
+                'phone_number' => $systemSetting->phone_number,
+                'whatsapp_number' => $systemSetting->whatsapp_number,
+                'email' => $systemSetting->email,
                 'copyright_text' => $systemSetting->copyright_text,
                 'logo' => $this->assetFileOrUrl($systemSetting->logo, 'uploads/system-settings-images'),
                 'mini_logo' => $this->assetFileOrUrl($systemSetting->mini_logo, 'uploads/system-settings-images'),
@@ -748,6 +769,27 @@ class BannerApiController extends Controller
             'success' => true,
             'message' => 'Footer Down data fetched successfully',
             'data' => $footerDowns
+        ]);
+    }
+
+    public function cookieindex()
+    {
+        $cookies = Cookie::all()->map(function ($cookie) {
+            return [
+                'id' => $cookie->id,
+                'description' => $this->stripTagsOrNull($cookie->description),
+                'reject' => $cookie->reject,
+                'accept' => $cookie->accept,
+                // Legacy keys (older frontend used message/button)
+                'message' => $this->stripTagsOrNull($cookie->description),
+                'button' => $cookie->accept,
+            ];
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cookie data fetched successfully',
+            'data' => $cookies
         ]);
     }
 
