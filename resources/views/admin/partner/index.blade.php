@@ -29,6 +29,7 @@
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
+                            <th>Title</th>
                             <th>Image</th>
                             <th>Action</th>
                         </tr>
@@ -55,6 +56,10 @@
                         name: 'DT_RowIndex',
                         orderable: false,
                         searchable: false
+                    },
+                    {
+                        data: 'title',
+                        name: 'title'
                     },
                     {
                         data: 'image',

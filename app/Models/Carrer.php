@@ -11,5 +11,7 @@ class Carrer extends Model
                'tagline',
                'title',
                'description',
+               'question',
+               'link',
     ];
 }

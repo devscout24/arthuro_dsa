@@ -31,16 +31,84 @@
 
                 <div class="row">
 
+                    {{-- Coming Soon --}}
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Coming Soon</label>
+                        <input type="text" name="comming_soon" class="form-control" value="{{ old('comming_soon', $banner->comming_soon) }}" placeholder="Coming soon text">
+                    </div>
+
                     {{-- Title --}}
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Title</label>
                         <input type="text" name="title" class="form-control" value="{{ old('title', $banner->title) }}" required>
                     </div>
 
+                    {{-- Tagline --}}
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Tagline</label>
+                        <input type="text" name="tagline" class="form-control" value="{{ old('tagline', $banner->tagline) }}" placeholder="Short tagline">
+                    </div>
+
+                    {{-- Button --}}
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Button Text</label>
+                        <input type="text" name="button" class="form-control" value="{{ old('button', $banner->button) }}" placeholder="Button label">
+                    </div>
+
+                    {{-- Career --}}
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Career</label>
+                        <input type="text" name="career" class="form-control" value="{{ old('career', $banner->career) }}" placeholder="Career">
+                    </div>
+
                     {{-- Description --}}
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Description</label>
                         <textarea name="description" class="form-control summernote">{{ old('description', $banner->description) }}</textarea>
+                    </div>
+
+                    {{-- Images --}}
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">Banner Images</label>
+                        <input type="file" name="images[]" class="form-control" accept="image/*" multiple onchange="previewImages(event)">
+                        @error('images')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                        @error('images.*')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+
+                        <div class="mt-3">
+                            <div class="mb-2">Current Images</div>
+                            @php
+                                $bannerImages = $banner->image ?? [];
+                                if (!is_array($bannerImages)) {
+                                    $bannerImages = json_decode((string) $bannerImages, true) ?? [];
+                                }
+                                $bannerImages = array_values(array_filter(array_map('trim', $bannerImages), fn($v) => $v !== ''));
+                            @endphp
+
+                            @if(count($bannerImages))
+                                <div class="d-flex flex-wrap gap-2">
+                                    @foreach($bannerImages as $img)
+                                        <div class="border rounded p-2 text-center">
+                                            <img src="{{ str_starts_with($img, 'http://') || str_starts_with($img, 'https://') || str_starts_with($img, '//') ? $img : asset('images/'.ltrim($img,'/')) }}" width="120" class="img-fluid rounded shadow-sm" alt="banner">
+                                            <input type="hidden" name="existing_images[]" value="{{ $img }}">
+                                            <div class="mt-2">
+                                                <button type="button" class="btn btn-sm btn-danger remove-existing-image">Remove</button>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-muted">No Image</div>
+                            @endif
+                        </div>
+
+                        <div class="mt-3" style="display:none" id="previewWrapper">
+                            <div class="mb-2">New Images Preview</div>
+                            <div class="d-flex flex-wrap gap-2" id="previewList"></div>
+                        </div>
                     </div>
 
                     {{-- Icons --}}
@@ -141,6 +209,11 @@ $(document).ready(function(){
         $(this).closest('.input-group').remove();
     });
 
+    // Remove existing image (removes its hidden existing_images[] too)
+    $(document).on('click', '.remove-existing-image', function(){
+        $(this).closest('.border').remove();
+    });
+
     // Add new feature input
     $(document).on('click', '.add-feature', function(){
         $('#feature-wrapper').append(`
@@ -157,5 +230,34 @@ $(document).ready(function(){
     });
 
 });
+</script>
+
+<script>
+function previewImages(event) {
+    let files = event.target.files;
+    let previewWrapper = document.getElementById('previewWrapper');
+    let previewList = document.getElementById('previewList');
+
+    previewList.innerHTML = '';
+
+    if (!files || files.length === 0) {
+        previewWrapper.style.display = 'none';
+        return;
+    }
+
+    Array.from(files).forEach((file) => {
+        let reader = new FileReader();
+        reader.onload = function(){
+            let img = document.createElement('img');
+            img.src = reader.result;
+            img.width = 120;
+            img.className = 'img-fluid rounded shadow-sm';
+            previewList.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    });
+
+    previewWrapper.style.display = 'block';
+}
 </script>
 @endpush

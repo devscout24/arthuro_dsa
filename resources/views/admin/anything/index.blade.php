@@ -21,6 +21,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Tagline</th>
                             <th>Description</th>
                             <th width="120">Action</th>
                         </tr>
@@ -35,13 +36,13 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('backend/assets/js/anything.js') }}"></script>
     <script>
         $(document).ready(function() {
             var table = $('#anythingTables').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('admin.anything.index') }}",
+                order: [],
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -51,6 +52,10 @@
                     {
                         data: 'title',
                         name: 'title'
+                    },
+                    {
+                        data: 'tagline',
+                        name: 'tagline'
                     },
                     {
                         data: 'description',
@@ -85,7 +90,7 @@
                             },
                             success: function(response) {
                                 table.ajax.reload();
-                                Swal.fire('Deleted!', 'Explore deleted successfully',
+                                Swal.fire('Deleted!', response.message ?? 'Anything deleted successfully',
                                     'success');
                             },
                             error: function(xhr) {

@@ -4,19 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Partner;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PartnerController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->ajax()) {
+            $query = Partner::query()->latest();
 
-            $partners = Partner::all();
-
-            return datatables()->of($partners)
+            return datatables()->of($query)
                 ->addIndexColumn()
 
+                ->addColumn('title', function ($partner) {
+                    return $partner->title;
+                })
 
                 ->addColumn('image', function ($partner) {
                     return '<img src="'.asset('images/'.$partner->image).'" width="80">';
@@ -53,25 +54,29 @@ class PartnerController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-
-            'image' => 'required|image|mimes:jpg,jpeg,png'
+        $validated = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'images' => 'required|array|min:1',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        $partner = new Partner();
+        $hasExistingTitle = Partner::query()->whereNotNull('title')->exists();
 
-
-        if ($request->hasFile('image')) {
-
-            $image = $request->file('image');
-            $imageName = time().'.'.$image->getClientOriginalExtension();
-
-            $image->move(public_path('images'), $imageName);
-
-            $partner->image = $imageName;
+        $titleForFirst = null;
+        if (!$hasExistingTitle && !empty($validated['title'])) {
+            $titleForFirst = $validated['title'];
         }
 
-        $partner->save();
+        $files = $request->file('images', []);
+        foreach ($files as $index => $image) {
+            $imageName = time().'_'.($index + 1).'.'.$image->getClientOriginalExtension();
+            $image->move(public_path('images'), $imageName);
+
+            Partner::create([
+                'title' => $index === 0 ? $titleForFirst : null,
+                'image' => $imageName,
+            ]);
+        }
 
         return redirect()->route('admin.partner.index')
             ->with('success','Partner created successfully');
@@ -90,6 +95,21 @@ class PartnerController extends Controller
     {
         $partner = Partner::findOrFail($id);
 
+        $validated = $request->validate([
+            'title' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
+        $hasOtherTitle = Partner::query()
+            ->where('id', '!=', $partner->id)
+            ->whereNotNull('title')
+            ->exists();
+
+        if ($hasOtherTitle) {
+            $validated['title'] = null;
+        }
+
+        $partner->title = $validated['title'] ?? null;
 
         if ($request->hasFile('image')) {
 

@@ -11,15 +11,21 @@ class WorkController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $works = work::all();
+            $query = work::query()->latest();
 
-            return datatables()->of($works)
+            return datatables()->of($query)
                 ->addIndexColumn()
                 ->addColumn('title', function ($work) {
                     return $work->title;
                 })
                 ->addColumn('description', function ($work) {
                     return Str::limit(strip_tags($work->description), 80);
+                })
+                ->addColumn('tag_header', function ($work) {
+                    return $work->tag_header;
+                })
+                ->addColumn('tag_footer', function ($work) {
+                    return $work->tag_footer;
                 })
                 ->addColumn('action', function ($work) {
                     $editUrl = route('admin.work.edit', $work->id);
@@ -45,15 +51,25 @@ class WorkController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tag_header' => 'nullable|string|max:255',
+            'tag_footer' => 'nullable|string|max:255',
         ]);
 
-        $work = new work();
-        $work->title = $request->title;
-        $work->description = $request->description;
-        $work->save();
+        $hasExistingTags = work::query()
+            ->where(function ($q) {
+                $q->whereNotNull('tag_header')->orWhereNotNull('tag_footer');
+            })
+            ->exists();
+
+        if ($hasExistingTags) {
+            $validated['tag_header'] = null;
+            $validated['tag_footer'] = null;
+        }
+
+        work::create($validated);
         return redirect()->route('admin.work.index')->with('success', 'Work created successfully');
     }
 
@@ -67,16 +83,33 @@ class WorkController extends Controller
     {
         $work = work::findOrFail($id);
 
-        $work->title = $request->title;
-        $work->description = $request->description;
-        $work->save();
+        $validated = $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'tag_header' => 'nullable|string|max:255',
+            'tag_footer' => 'nullable|string|max:255',
+        ]);
+
+        $hasOtherTags = work::query()
+            ->where('id', '!=', $work->id)
+            ->where(function ($q) {
+                $q->whereNotNull('tag_header')->orWhereNotNull('tag_footer');
+            })
+            ->exists();
+
+        if ($hasOtherTags) {
+            $validated['tag_header'] = null;
+            $validated['tag_footer'] = null;
+        }
+
+        $work->update($validated);
 
         return redirect()->route('admin.work.index')->with('success', 'Work updated successfully');
     }
 
     public function destroy($id)
     {
-        $work = Work::findOrFail($id);
+        $work = work::findOrFail($id);
         $work->delete();
 
         return response()->json([

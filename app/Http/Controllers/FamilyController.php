@@ -11,16 +11,25 @@ class FamilyController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $family = Family::all();
-            return datatables()->of($family)
+            $query = Family::query()->latest();
+            return datatables()->of($query)
                 ->addIndexColumn()
+                ->orderColumn('DT_RowIndex', function ($query, $order) {
+                    $query->orderBy('id', $order);
+                })
                 ->addColumn('title', function ($family) {
                     return $family->title;
+                })
+                ->addColumn('button', function ($family) {
+                    return $family->button;
                 })
                 ->addColumn('description', function ($family) {
                     return Str::limit(strip_tags($family->description), 80);
                 })
                 ->addColumn('image', function ($family) {
+                    if (!$family->image) {
+                        return 'N/A';
+                    }
                     return '<img src="' . asset('images/' . $family->image) . '" alt="' . $family->title . '" width="80">';
                 })
                 ->addColumn('action', function ($family) {
@@ -48,18 +57,19 @@ class FamilyController extends Controller
 
     public function store(Request $request)
     {
-
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'required',
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'button' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5120',
         ]);
 
         // Handle the form submission
         $family = new Family();
 
-        $family->title = $request->title;
-        $family->description = $request->description;
+        $family->title = $validated['title'];
+        $family->button = $validated['button'] ?? null;
+        $family->description = $validated['description'];
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imageName = time() . '.' . $image->getClientOriginalExtension();
@@ -79,16 +89,18 @@ class FamilyController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'title' => 'required',
-            'description' => 'required',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif'
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'button' => 'nullable|string|max:255',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:5120',
         ]);
 
         $family = Family::findOrFail($id);
 
-        $family->title = $request->title;
-        $family->description = $request->description;
+        $family->title = $validated['title'];
+        $family->button = $validated['button'] ?? null;
+        $family->description = $validated['description'];
 
         // image update
         if ($request->hasFile('image')) {

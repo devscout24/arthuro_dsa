@@ -61,6 +61,23 @@
                         </div>
 
                         <div class="col-12">
+                            <label for="question" class="form-label">Question</label>
+                            <textarea class="form-control" name="question" id="question" rows="3">{{ old('question') }}</textarea>
+                            @error('question')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-lg-6 col-md-6 col-12">
+                            <label for="link" class="form-label">Link</label>
+                            <input type="text" class="form-control" name="link" id="link"
+                                value="{{ old('link') }}" placeholder="https://...">
+                            @error('link')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12">
                             <button type="submit" class="btn btn-primary">
                                 Save
                             </button>
@@ -76,9 +93,12 @@
     </div>
 @endsection
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" rel="stylesheet">
+@endpush
+
 @push('scripts')
-   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" rel="stylesheet">
-   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
 
     <script>
         $(document).ready(function() {

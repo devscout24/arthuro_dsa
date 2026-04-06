@@ -18,6 +18,8 @@
                             <th>Tagline</th>
                             <th>Title</th>
                             <th>Description</th>
+                            <th>Question</th>
+                            <th>Link</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -30,7 +32,6 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('backend/assets/js/carrer.js') }}"></script>
     <script>
         $(document).ready(function() {
 
@@ -59,6 +60,14 @@
                     {
                         data: 'description',
                         name: 'description'
+                    },
+                    {
+                        data: 'question',
+                        name: 'question'
+                    },
+                    {
+                        data: 'link',
+                        name: 'link'
                     },
                     {
                         data: 'action',

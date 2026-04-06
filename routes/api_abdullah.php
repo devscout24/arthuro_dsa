@@ -52,3 +52,50 @@ Route::get('/admin/terms/index', [BannerApiController::class, 'termindex']);
 // privacy policy
 Route::get('/admin/privacy-policies/index', [BannerApiController::class, 'privacypolicyindex']);
 
+// mission
+Route::get('/admin/missions/index', [BannerApiController::class, 'missionindex']);
+
+// career up
+Route::get('/admin/career-ups/index', [BannerApiController::class, 'careerUp']);
+
+// here
+Route::get('/admin/heres/index', [BannerApiController::class, 'hereindex']);
+
+// future
+Route::get('/admin/futures/index', [BannerApiController::class, 'futureindex']);
+
+// already
+Route::get('/admin/alreadys/index', [BannerApiController::class, 'alreadyindex']);
+
+// negotiable
+Route::get('/admin/negotiables/index', [BannerApiController::class, 'negotiableindex']);
+
+// Team paragraph
+Route::get('/admin/teamParagraphs/index', [TeamController::class, 'teamParagraphindex']);
+
+// navbar
+Route::get('/admin/navbars/index', [BannerApiController::class, 'navbarindex']);
+
+// building paragraph
+Route::get('/admin/buildingParagraphs/index', [BannerApiController::class, 'buildingindex']);
+
+// exception
+Route::get('/admin/exceptions/index', [BannerApiController::class, 'exceptionindex']);
+
+// social media
+Route::get('/admin/socialMedias/index', [BannerApiController::class, 'socialMediaindex']);
+
+// system setting
+Route::get('/admin/systemSettings/index', [BannerApiController::class, 'systemSettingindex']);
+
+
+// contact dynamic
+Route::get('/admin/contact-dynamics/index', [BannerApiController::class, 'contactDynamicindex']);
+
+
+// information
+Route::get('/admin/informations/index', [BannerApiController::class, 'informationindex']);
+
+
+// footer down
+Route::get('/admin/footer-downs/index', [BannerApiController::class, 'footerDownindex']);

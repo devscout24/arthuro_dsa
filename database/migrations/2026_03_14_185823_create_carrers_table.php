@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('tagline')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
+            $table->text('question')->nullable();
+            $table->string('link')->nullable();
             $table->timestamps();
         });
     }

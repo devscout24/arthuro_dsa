@@ -65,7 +65,7 @@ class SystemSettingController extends Controller
             }
             $logo = $request->file('logo');
             $logoName = 'logo_' . time() . '_' . uniqid() . '.' . $logo->getClientOriginalExtension();
-            $resizedLogo = Image::make($logo)->resize(187, 35);
+            $resizedLogo = Image::make($logo)->resize(100, 100);
             $resizedLogo->save(public_path($directory . $logoName));
             $setting->logo = $directory . $logoName;
         }

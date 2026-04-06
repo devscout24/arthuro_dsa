@@ -22,8 +22,13 @@
                     <thead class="table-light">
                         <tr>
                             <th>#</th>
+                            <th>Coming Soon</th>
                             <th>Title</th>
+                            <th>Tagline</th>
+                            <th>Button</th>
+                            <th>Career</th>
                             <th>Description</th>
+                            <th>Image</th>
                             <th>Icons</th>
                             <th>Features</th>
                             <th>Action</th>
@@ -58,12 +63,34 @@
                         }
                     },
                     {
+                        data: 'comming_soon',
+                        name: 'comming_soon'
+                    },
+                    {
                         data: 'title',
                         name: 'title'
                     },
                     {
+                        data: 'tagline',
+                        name: 'tagline'
+                    },
+                    {
+                        data: 'button',
+                        name: 'button'
+                    },
+                    {
+                        data: 'career',
+                        name: 'career'
+                    },
+                    {
                         data: 'description',
                         name: 'description'
+                    },
+                    {
+                        data: 'image',
+                        name: 'image',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'icons',

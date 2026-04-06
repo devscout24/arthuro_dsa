@@ -40,6 +40,11 @@
                     <textarea name="description" class="form-control summernote" rows="5">{{ old('description') }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tagline</label>
+                    <input type="text" name="tagline" class="form-control" value="{{ old('tagline') }}">
+                </div>
+
 
                 <button type="submit" class="btn btn-success">Save</button>
             </form>

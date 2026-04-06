@@ -10,5 +10,6 @@ class Explore extends Model
         'title',
         'description',
         'image',
+        'tagline',
     ];
 }

@@ -69,6 +69,11 @@
                     @endif
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tagline (Only One Time)</label>
+                    <input type="text" name="tagline" class="form-control" value="{{ old('tagline', $horizon->tagline) }}">
+                </div>
+
                 {{-- Submit --}}
                 <button type="submit" class="btn btn-primary">
                     Update Horizon
@@ -84,25 +89,26 @@
 
 @endsection
 
+@push('styles')
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.css" rel="stylesheet">
+@endpush
 
 @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-bs5.min.js"></script>
 
-<script>
-$(document).ready(function(){
-
-    $('.summernote').summernote({
-        height:200,
-        placeholder:'Write description here...',
-        toolbar:[
-            ['style',['style']],
-            ['font',['bold','italic','underline']],
-            ['para',['ul','ol','paragraph']],
-            ['insert',['link']],
-            ['view',['fullscreen','codeview']]
-        ]
-    });
-
-});
-</script>
-
+    <script>
+        $(document).ready(function(){
+            $('.summernote').summernote({
+                height:200,
+                placeholder:'Write description here...',
+                toolbar:[
+                    ['style',['style']],
+                    ['font',['bold','italic','underline']],
+                    ['para',['ul','ol','paragraph']],
+                    ['insert',['link']],
+                    ['view',['fullscreen','codeview']]
+                ]
+            });
+        });
+    </script>
 @endpush

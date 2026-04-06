@@ -1,20 +1,33 @@
 <?php
 
 use App\Http\Controllers\AnythingController;
+use App\Http\Controllers\AlreadyController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\CarrerController;
+use App\Http\Controllers\CarrerUpController;
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\ExceptionController;
 use App\Http\Controllers\FamilyController;
+use App\Http\Controllers\FutureController;
 use App\Http\Controllers\FounderController;
 use App\Http\Controllers\HorizonController;
+use App\Http\Controllers\HereController;
 use App\Http\Controllers\MissonController;
+use App\Http\Controllers\NavbarController;
+use App\Http\Controllers\NegotiableController;
 use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamParagraphController;
 use App\Http\Controllers\WorkController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserContactController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\InformationController;
+use App\Http\Controllers\ContactDynamicController;
+use App\Http\Controllers\CookieController;
+use App\Http\Controllers\FooterDownController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +40,70 @@ Route::post('/admin/banner/store', [BannerController::class, 'store'])->name('ad
 Route::get('/admin/banner/edit/{id}', [BannerController::class, 'edit'])->name('admin.banner.edit');
 Route::put('/admin/banner/update/{id}', [BannerController::class, 'update'])->name('admin.banner.update');
 Route::delete('/admin/banner/destroy/{id}', [BannerController::class, 'destroy'])->name('admin.banner.destroy');
+
+// navbar
+Route::get('/admin/navbar/index', [NavbarController::class, 'index'])->name('admin.navbar.index');
+Route::get('/admin/navbar/create', [NavbarController::class, 'create'])->name('admin.navbar.create');
+Route::post('/admin/navbar/store', [NavbarController::class, 'store'])->name('admin.navbar.store');
+Route::get('/admin/navbar/edit/{id}', [NavbarController::class, 'edit'])->name('admin.navbar.edit');
+Route::put('/admin/navbar/update/{id}', [NavbarController::class, 'update'])->name('admin.navbar.update');
+Route::delete('/admin/navbar/destroy/{id}', [NavbarController::class, 'destroy'])->name('admin.navbar.destroy');
+
+// future
+Route::get('/admin/future/index', [FutureController::class, 'index'])->name('admin.future.index');
+Route::get('/admin/future/create', [FutureController::class, 'create'])->name('admin.future.create');
+Route::post('/admin/future/store', [FutureController::class, 'store'])->name('admin.future.store');
+Route::get('/admin/future/edit/{id}', [FutureController::class, 'edit'])->name('admin.future.edit');
+Route::put('/admin/future/update/{id}', [FutureController::class, 'update'])->name('admin.future.update');
+Route::delete('/admin/future/destroy/{id}', [FutureController::class, 'destroy'])->name('admin.future.destroy');
+
+// here
+Route::get('/admin/here/index', [HereController::class, 'index'])->name('admin.here.index');
+Route::get('/admin/here/create', [HereController::class, 'create'])->name('admin.here.create');
+Route::post('/admin/here/store', [HereController::class, 'store'])->name('admin.here.store');
+Route::get('/admin/here/edit/{id}', [HereController::class, 'edit'])->name('admin.here.edit');
+Route::put('/admin/here/update/{id}', [HereController::class, 'update'])->name('admin.here.update');
+Route::delete('/admin/here/destroy/{id}', [HereController::class, 'destroy'])->name('admin.here.destroy');
+
+// already (single record)
+Route::get('/admin/already/index', [AlreadyController::class, 'index'])->name('admin.already.index');
+Route::get('/admin/already/create', [AlreadyController::class, 'create'])->name('admin.already.create');
+Route::post('/admin/already/store', [AlreadyController::class, 'store'])->name('admin.already.store');
+Route::get('/admin/already/edit/{id}', [AlreadyController::class, 'edit'])->name('admin.already.edit');
+Route::put('/admin/already/update/{id}', [AlreadyController::class, 'update'])->name('admin.already.update');
+Route::delete('/admin/already/destroy/{id}', [AlreadyController::class, 'destroy'])->name('admin.already.destroy');
+
+// negotiable
+Route::get('/admin/negotiable/index', [NegotiableController::class, 'index'])->name('admin.negotiable.index');
+Route::get('/admin/negotiable/create', [NegotiableController::class, 'create'])->name('admin.negotiable.create');
+Route::post('/admin/negotiable/store', [NegotiableController::class, 'store'])->name('admin.negotiable.store');
+Route::get('/admin/negotiable/edit/{id}', [NegotiableController::class, 'edit'])->name('admin.negotiable.edit');
+Route::put('/admin/negotiable/update/{id}', [NegotiableController::class, 'update'])->name('admin.negotiable.update');
+Route::delete('/admin/negotiable/destroy/{id}', [NegotiableController::class, 'destroy'])->name('admin.negotiable.destroy');
+
+// building
+Route::get('/admin/building/index', [BuildingController::class, 'index'])->name('admin.building.index');
+Route::get('/admin/building/create', [BuildingController::class, 'create'])->name('admin.building.create');
+Route::post('/admin/building/store', [BuildingController::class, 'store'])->name('admin.building.store');
+Route::get('/admin/building/edit/{id}', [BuildingController::class, 'edit'])->name('admin.building.edit');
+Route::put('/admin/building/update/{id}', [BuildingController::class, 'update'])->name('admin.building.update');
+Route::delete('/admin/building/destroy/{id}', [BuildingController::class, 'destroy'])->name('admin.building.destroy');
+
+// exception
+Route::get('/admin/exception/index', [ExceptionController::class, 'index'])->name('admin.exception.index');
+Route::get('/admin/exception/create', [ExceptionController::class, 'create'])->name('admin.exception.create');
+Route::post('/admin/exception/store', [ExceptionController::class, 'store'])->name('admin.exception.store');
+Route::get('/admin/exception/edit/{id}', [ExceptionController::class, 'edit'])->name('admin.exception.edit');
+Route::put('/admin/exception/update/{id}', [ExceptionController::class, 'update'])->name('admin.exception.update');
+Route::delete('/admin/exception/destroy/{id}', [ExceptionController::class, 'destroy'])->name('admin.exception.destroy');
+
+// carrer up
+Route::get('/admin/carrer-up/index', [CarrerUpController::class, 'index'])->name('admin.carrer_up.index');
+Route::get('/admin/carrer-up/create', [CarrerUpController::class, 'create'])->name('admin.carrer_up.create');
+Route::post('/admin/carrer-up/store', [CarrerUpController::class, 'store'])->name('admin.carrer_up.store');
+Route::get('/admin/carrer-up/edit/{id}', [CarrerUpController::class, 'edit'])->name('admin.carrer_up.edit');
+Route::put('/admin/carrer-up/update/{id}', [CarrerUpController::class, 'update'])->name('admin.carrer_up.update');
+Route::delete('/admin/carrer-up/destroy/{id}', [CarrerUpController::class, 'destroy'])->name('admin.carrer_up.destroy');
 
 // carrer
 Route::get('/admin/carrer/index', [CarrerController::class, 'index'])->name('admin.carrer.index');  
@@ -116,6 +193,14 @@ Route::get('/admin/team/edit/{id}', [TeamController::class, 'edit'])->name('admi
 Route::put('/admin/team/update/{id}', [TeamController::class, 'update'])->name('admin.team.update');
 Route::delete('/admin/team/destroy/{id}', [TeamController::class, 'destroy'])->name('admin.team.destroy');
 
+// team paragraph
+Route::get('/admin/team-paragraph/index', [TeamParagraphController::class, 'index'])->name('admin.team_paragraph.index');
+Route::get('/admin/team-paragraph/create', [TeamParagraphController::class, 'create'])->name('admin.team_paragraph.create');
+Route::post('/admin/team-paragraph/store', [TeamParagraphController::class, 'store'])->name('admin.team_paragraph.store');
+Route::get('/admin/team-paragraph/edit/{id}', [TeamParagraphController::class, 'edit'])->name('admin.team_paragraph.edit');
+Route::put('/admin/team-paragraph/update/{id}', [TeamParagraphController::class, 'update'])->name('admin.team_paragraph.update');
+Route::delete('/admin/team-paragraph/destroy/{id}', [TeamParagraphController::class, 'destroy'])->name('admin.team_paragraph.destroy');
+
 
 //all user 
 Route::get('/admin/user/index', [UserController::class, 'index'])->name('admin.user.index');
@@ -152,4 +237,36 @@ Route::post('/admin/privacy-policy/store', [PrivacyPolicyController::class, 'sto
 Route::get('/admin/privacy-policy/edit/{id}', [PrivacyPolicyController::class, 'edit'])->name('admin.privacy-policy.edit');
 Route::put('/admin/privacy-policy/update/{id}', [PrivacyPolicyController::class, 'update'])->name('admin.privacy-policy.update');
 Route::delete('/admin/privacy-policy/destroy/{id}', [PrivacyPolicyController::class, 'destroy'])->name('admin.privacy-policy.destroy');
+
+// information
+Route::get('/admin/information/index', [InformationController::class, 'index'])->name('admin.information.index');
+Route::get('/admin/information/create', [InformationController::class, 'create'])->name('admin.information.create');
+Route::post('/admin/information/store', [InformationController::class, 'store'])->name('admin.information.store');
+Route::get('/admin/information/edit/{id}', [InformationController::class, 'edit'])->name('admin.information.edit');
+Route::put('/admin/information/update/{id}', [InformationController::class, 'update'])->name('admin.information.update');
+Route::delete('/admin/information/destroy/{id}', [InformationController::class, 'destroy'])->name('admin.information.destroy');
+
+// contact dynamic
+Route::get('/admin/contact-dynamic/index', [ContactDynamicController::class, 'index'])->name('admin.contact-dynamic.index');
+Route::get('/admin/contact-dynamic/create', [ContactDynamicController::class, 'create'])->name('admin.contact-dynamic.create');
+Route::post('/admin/contact-dynamic/store', [ContactDynamicController::class, 'store'])->name('admin.contact-dynamic.store');
+Route::get('/admin/contact-dynamic/edit/{id}', [ContactDynamicController::class, 'edit'])->name('admin.contact-dynamic.edit');
+Route::put('/admin/contact-dynamic/update/{id}', [ContactDynamicController::class, 'update'])->name('admin.contact-dynamic.update');
+Route::delete('/admin/contact-dynamic/destroy/{id}', [ContactDynamicController::class, 'destroy'])->name('admin.contact-dynamic.destroy');
+
+// cookie
+Route::get('/admin/cookie/index', [CookieController::class, 'index'])->name('admin.cookie.index');
+Route::get('/admin/cookie/create', [CookieController::class, 'create'])->name('admin.cookie.create');
+Route::post('/admin/cookie/store', [CookieController::class, 'store'])->name('admin.cookie.store');
+Route::get('/admin/cookie/edit/{id}', [CookieController::class, 'edit'])->name('admin.cookie.edit');
+Route::put('/admin/cookie/update/{id}', [CookieController::class, 'update'])->name('admin.cookie.update');
+Route::delete('/admin/cookie/destroy/{id}', [CookieController::class, 'destroy'])->name('admin.cookie.destroy');
+
+// footer down
+Route::get('/admin/footer-down/index', [FooterDownController::class, 'index'])->name('admin.footer-down.index');
+Route::get('/admin/footer-down/create', [FooterDownController::class, 'create'])->name('admin.footer-down.create');
+Route::post('/admin/footer-down/store', [FooterDownController::class, 'store'])->name('admin.footer-down.store');
+Route::get('/admin/footer-down/edit/{id}', [FooterDownController::class, 'edit'])->name('admin.footer-down.edit');
+Route::put('/admin/footer-down/update/{id}', [FooterDownController::class, 'update'])->name('admin.footer-down.update');
+Route::delete('/admin/footer-down/destroy/{id}', [FooterDownController::class, 'destroy'])->name('admin.footer-down.destroy');
 

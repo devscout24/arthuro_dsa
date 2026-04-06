@@ -21,6 +21,10 @@ class AnythingController extends Controller
                 ->addColumn('description', function ($anything) {
                     return Str::limit(strip_tags($anything->description), 80);
                 })
+
+                ->addColumn('tagline', function ($anything) {
+                    return $anything->tagline;
+                })
                 ->addColumn('action', function ($anything) {
                     $editUrl = route('admin.anything.edit', $anything->id);
                     return '
@@ -45,15 +49,22 @@ class AnythingController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
         ]);
 
         $anything = new Anything();
 
-        $anything->title = $request->title;
-        $anything->description = $request->description;
+        $hasExistingTagline = Anything::query()->whereNotNull('tagline')->exists();
+        if ($hasExistingTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $anything->title = $validated['title'];
+        $anything->description = $validated['description'];
+        $anything->tagline = $validated['tagline'] ?? null;
 
         $anything->save();
 
@@ -71,13 +82,24 @@ class AnythingController extends Controller
     {
         $anything = Anything::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
         ]);
 
-        $anything->title = $request->title;
-        $anything->description = $request->description;
+        $hasOtherTagline = Anything::query()
+            ->where('id', '!=', $anything->id)
+            ->whereNotNull('tagline')
+            ->exists();
+
+        if ($hasOtherTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $anything->title = $validated['title'];
+        $anything->description = $validated['description'];
+        $anything->tagline = $validated['tagline'] ?? null;
 
         $anything->save();
 

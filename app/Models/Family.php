@@ -10,5 +10,6 @@ class Family extends Model
         'title',
         'description',
         'image',
+        'button',
     ];
 }

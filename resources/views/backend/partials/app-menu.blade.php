@@ -6,12 +6,12 @@
          <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
              <span class="logo-sm">
                  @if (!empty($systemSetting->mini_logo))
-                     <img src="{{ asset($systemSetting->mini_logo) }}" alt="Logo" height="22">
+                     <img src="{{ asset($systemSetting->mini_logo) }}" alt="Logo" height="10">
                  @endif
              </span>
              <span class="logo-lg">
                  @if (!empty($systemSetting->logo))
-                     <img src="{{ asset($systemSetting->logo) }}" alt="Logo" height="35">
+                     <img src="{{ asset($systemSetting->logo) }}" alt="Logo" height="35" width="50">
                  @endif
              </span>
          </a>
@@ -24,7 +24,7 @@
              </span>
              <span class="logo-lg">
                  @if (!empty($systemSetting->logo))
-                     <img src="{{ asset($systemSetting->logo) }}" alt="Logo" height="35">
+                     <img src="{{ asset($systemSetting->logo) }}" alt="Logo" height="35" width="50">
                  @endif
              </span>
          </a>
@@ -96,50 +96,118 @@
 
                  {{-- carrer --}}
                  <li>
-                     <a class="nav-link menu-link {{ request()->routeIs('admin.carrers.*') ? 'active' : '' }}"
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.carrer.*') ? 'active' : '' }}"
                          href="{{ route('admin.carrer.index') }}">
                          <i class="ri-image-add-line"></i> <span>Career</span>
                      </a>
                  </li>
 
-                 {{-- family --}}
-
+                 {{-- career up --}}
                  <li>
-                     <a class="nav-link menu-link {{ request()->routeIs('admin.families.*') ? 'active' : '' }}"
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.carrer_up.*') ? 'active' : '' }}"
+                         href="{{ route('admin.carrer_up.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Career Up</span>
+                     </a>
+                 </li>
+
+                 {{-- exception --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.exceptions.*') ? 'active' : '' }}"
+                         href="{{ route('admin.exception.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Exception</span>
+                     </a>
+                 </li>
+
+                 {{-- family --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.family.*') ? 'active' : '' }}"
                          href="{{ route('admin.family.index') }}">
                          <i class="ri-image-add-line"></i> <span>Family</span>
                      </a>
                  </li>
 
-                 {{-- partner --}}
-
+                 {{-- future --}}
                  <li>
-                     <a class="nav-link menu-link {{ request()->routeIs('admin.partners.*') ? 'active' : '' }}"
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.futures.*') ? 'active' : '' }}"
+                         href="{{ route('admin.future.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Future</span>
+                     </a>
+                 </li>
+
+                 {{-- here --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.here.*') ? 'active' : '' }}"
+                         href="{{ route('admin.here.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Here</span>
+                     </a>
+                 </li>
+
+                 {{-- already --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.already.*') ? 'active' : '' }}"
+                         href="{{ route('admin.already.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Already</span>
+                     </a>
+                 </li>
+
+
+                 {{-- negotiable --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.negotiables.*') ? 'active' : '' }}"
+                         href="{{ route('admin.negotiable.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Negotiable</span>
+                     </a>
+                 </li>
+
+                 {{-- team paragraph --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.team_paragraphs.*') ? 'active' : '' }}"
+                         href="{{ route('admin.team_paragraph.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Team Paragraph</span>
+                     </a>
+                 </li>
+
+                 {{-- navbar --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.navbars.*') ? 'active' : '' }}"
+                         href="{{ route('admin.navbar.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Navbar</span>
+                     </a>
+                 </li>
+
+                 {{-- building --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.buildings.*') ? 'active' : '' }}"
+                         href="{{ route('admin.building.index') }}">
+                         <i class="ri-image-add-line"></i> <span>Building</span>
+                     </a>
+                 </li>
+
+                 {{-- partner --}}
+                 <li>
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.partner.*') ? 'active' : '' }}"
                          href="{{ route('admin.partner.index') }}">
                          <i class="ri-image-add-line"></i> <span>Partner</span>
                      </a>
                  </li>
 
                  {{-- horizon   --}}
-
                  <li>
-                     <a class="nav-link menu-link {{ request()->routeIs('admin.horizons.*') ? 'active' : '' }}"
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.horizon.*') ? 'active' : '' }}"
                          href="{{ route('admin.horizon.index') }}">
                          <i class="ri-image-add-line"></i> <span>Horizon</span>
                      </a>
                  </li>
 
                  {{-- work --}}
-
                  <li>
-                     <a class="nav-link menu-link {{ request()->routeIs('admin.works.*') ? 'active' : '' }}"
+                     <a class="nav-link menu-link {{ request()->routeIs('admin.work.*') ? 'active' : '' }}"
                          href="{{ route('admin.work.index') }}">
                          <i class="ri-image-add-line"></i> <span>Work</span>
                      </a>
                  </li>
 
                  {{-- anything --}}
-
                  <li>
                      <a class="nav-link menu-link {{ request()->routeIs('admin.anythings.*') ? 'active' : '' }}"
                          href="{{ route('admin.anything.index') }}">
@@ -148,13 +216,21 @@
                  </li>
 
                  {{-- Explore --}}
-
                  <li>
                      <a class="nav-link menu-link {{ request()->routeIs('admin.explores.*') ? 'active' : '' }}"
                          href="{{ route('admin.explore.index') }}">
                          <i class="ri-image-add-line"></i> <span>Explore</span>
                      </a>
                  </li>
+
+
+                 {{-- mission --}}
+                    <li>
+                        <a class="nav-link menu-link {{ request()->routeIs('admin.missions.*') ? 'active' : '' }}"
+                            href="{{ route('admin.misson.index') }}">
+                            <i class="ri-image-add-line"></i> <span>Mission</span>
+                        </a>
+                    </li>    
 
                  {{-- Founder  --}}
 
@@ -205,6 +281,39 @@
                          <i class="ri-image-add-line"></i> <span>Contact</span>
                      </a>
                  </li>
+
+                 {{-- Information --}}
+                    <li>
+                        <a class="nav-link menu-link {{ request()->routeIs('admin.information.*') ? 'active' : '' }}"
+                            href="{{ route('admin.information.index') }}">
+                            <i class="ri-image-add-line"></i> <span>Information</span>
+                        </a>
+                    </li>
+
+
+                    {{-- contact dynamic --}}
+                    <li>
+                        <a class="nav-link menu-link {{ request()->routeIs('admin.contact-dynamic.*') ? 'active' : '' }}"
+                            href="{{ route('admin.contact-dynamic.index') }}">
+                            <i class="ri-image-add-line"></i> <span>Contact Dynamic</span>
+                        </a>
+                    </li>
+
+                    {{-- cookies --}}
+                    <li>
+                        <a class="nav-link menu-link {{ request()->routeIs('admin.cookies.*') ? 'active' : '' }}"
+                            href="{{ route('admin.cookie.index') }}">
+                            <i class="ri-image-add-line"></i> <span>Cookies</span>
+                        </a>
+                    </li>
+
+                    {{-- footer down --}}
+                    <li>
+                        <a class="nav-link menu-link {{ request()->routeIs('admin.footer-down.*') ? 'active' : '' }}"
+                            href="{{ route('admin.footer-down.index') }}">
+                            <i class="ri-image-add-line"></i> <span>Footer Down</span>
+                        </a>    
+                    </li>
 
 
                  {{-- Category Menu --}}

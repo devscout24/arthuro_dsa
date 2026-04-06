@@ -41,6 +41,11 @@
                     <textarea name="description" class="form-control summernote" rows="5">{{ old('description', $anything->description) }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tagline</label>
+                    <input type="text" name="tagline" class="form-control" value="{{ old('tagline', $anything->tagline) }}">
+                </div>
+
         
 
                 <button type="submit" class="btn btn-success">Update</button>

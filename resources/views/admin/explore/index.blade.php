@@ -24,6 +24,7 @@
                     <tr>
                         <th>#</th>
                         <th>Title</th>
+                        <th>Tagline</th>
                         <th>Description</th>
                         <th>Image</th>
                         <th width="120">Action</th>
@@ -66,6 +67,11 @@ $(document).ready(function(){
             {
                 data: 'title',
                 name: 'title'
+            },
+
+            {
+                data: 'tagline',
+                name: 'tagline'
             },
 
             {

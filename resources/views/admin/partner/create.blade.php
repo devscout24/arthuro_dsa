@@ -37,16 +37,31 @@
 
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label class="form-label">Image</label>
+                            <label class="form-label">Title (Only One Time)</label>
+                            <input type="text" name="title" class="form-control" value="{{ old('title') }}">
+
+                            @error('title')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Images</label>
 
                             <input 
                                 type="file" 
-                                name="image" 
+                                name="images[]" 
                                 class="form-control"
+                                multiple
                                 required
                             >
 
-                            @error('image')
+                            @error('images')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                            @error('images.*')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

@@ -9,5 +9,6 @@ class Anything extends Model
     protected $fillable = [
         'title',
         'description',
+        'tagline',
     ];
 }

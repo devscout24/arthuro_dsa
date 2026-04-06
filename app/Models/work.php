@@ -8,6 +8,8 @@ class work extends Model
 {
     protected $fillable = [
         'title',
-        'description'
+        'description',
+        'tag_header',
+        'tag_footer',
     ];
 }

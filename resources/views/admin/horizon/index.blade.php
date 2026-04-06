@@ -22,6 +22,7 @@
                             <th>Title</th>
                             <th>Description</th>
                             <th>Image</th>
+                            <th>Tagline</th>
                             <th width="120">Action</th>
                         </tr>
                     </thead>
@@ -68,6 +69,10 @@
                         searchable: false
                     },
                     {
+                        data: 'tagline',
+                        name: 'tagline'
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -95,7 +100,7 @@
 
                         $.ajax({
 
-                            url: "/admin/horizon/destroy/" + id,
+                            url: "{{ route('admin.horizon.destroy', ':id') }}".replace(':id', id),
                             type: "DELETE",
 
                             data: {

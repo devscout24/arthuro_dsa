@@ -56,6 +56,26 @@
                     >{{ old('description', $work->description) }}</textarea>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tag Header</label>
+                    <input 
+                        type="text" 
+                        name="tag_header" 
+                        class="form-control"
+                        value="{{ old('tag_header', $work->tag_header) }}"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tag Footer</label>
+                    <input 
+                        type="text" 
+                        name="tag_footer" 
+                        class="form-control"
+                        value="{{ old('tag_footer', $work->tag_footer) }}"
+                    >
+                </div>
+
                 {{-- Submit Button --}}
                 <button type="submit" class="btn btn-primary">
                     Update

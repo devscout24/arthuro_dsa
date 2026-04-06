@@ -10,5 +10,6 @@ class Horizon extends Model
         'title',
         'description',
         'image',
+        'tagline',
     ];
 }

@@ -18,6 +18,8 @@
                         <th>#</th>
                         <th>Title</th>
                         <th>Description</th>
+                        <th>Tag Header</th>
+                        <th>Tag Footer</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -43,6 +45,8 @@ let table = $('#workTables').DataTable({
         { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false },
         { data: 'title', name: 'title' },
         { data: 'description', name: 'description' },
+        { data: 'tag_header', name: 'tag_header' },
+        { data: 'tag_footer', name: 'tag_footer' },
         { data: 'action', name: 'action', orderable:false, searchable:false }
     ]
 });

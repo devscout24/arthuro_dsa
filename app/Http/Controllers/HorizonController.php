@@ -29,6 +29,10 @@ class HorizonController extends Controller
                     return '<img src="' . asset('images/' . $horizon->image) . '" width="80">';
                 })
 
+                ->addColumn('tagline', function ($horizon) {
+                    return $horizon->tagline;
+                })
+
                 ->addColumn('action', function ($horizon) {
 
                     $editUrl = route('admin.horizon.edit', $horizon->id);
@@ -44,7 +48,7 @@ class HorizonController extends Controller
                     ';
                 })
 
-                ->rawColumns(['title', 'description', 'image', 'action'])
+                ->rawColumns(['title', 'description', 'image', 'tagline', 'action'])
                 ->make(true);
         }
 
@@ -60,16 +64,23 @@ class HorizonController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpg,jpeg,png'
         ]);
 
         $horizon = new Horizon();
 
-        $horizon->title = $request->title;
-        $horizon->description = $request->description;
+        $hasExistingTagline = Horizon::query()->whereNotNull('tagline')->exists();
+        if ($hasExistingTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $horizon->title = $validated['title'];
+        $horizon->description = $validated['description'];
+        $horizon->tagline = $validated['tagline'] ?? null;
 
         if ($request->hasFile('image')) {
 
@@ -99,15 +110,25 @@ class HorizonController extends Controller
     {
         $horizon = Horizon::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
-        $horizon->title = $request->title;
+        $hasOtherTagline = Horizon::query()
+            ->where('id', '!=', $horizon->id)
+            ->whereNotNull('tagline')
+            ->exists();
 
-        // remove HTML tags
-        $horizon->description = strip_tags($request->description);
+        if ($hasOtherTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $horizon->title = $validated['title'];
+        $horizon->description = $validated['description'];
+        $horizon->tagline = $validated['tagline'] ?? null;
 
         if ($request->hasFile('image')) {
 

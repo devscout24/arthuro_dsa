@@ -21,6 +21,7 @@
                         <tr>
                             <th>#</th>
                             <th>Title</th>
+                            <th>Button</th>
                             <th>Description</th>
                             <th>Image</th>
                             <th>Action</th>
@@ -35,20 +36,26 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('backend/assets/js/family.js') }}"></script>
     <script>
         $(document).ready(function() {
             let table = $('#familyTables').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('admin.family.index') }}",
+                order: [],
                 columns: [{
                         data: 'DT_RowIndex',
-                        name: 'DT_RowIndex'
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'title',
                         name: 'title'
+                    },
+                    {
+                        data: 'button',
+                        name: 'button'
                     },
                     {
                         data: 'description',
@@ -60,7 +67,9 @@
                     },
                     {
                         data: 'action',
-                        name: 'action'
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     },
                 ]
             });

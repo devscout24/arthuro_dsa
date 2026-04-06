@@ -30,6 +30,10 @@ class ExploreController extends Controller
                     return '<img src="' . asset('images/' . $explore->image) . '" width="80">';
                 })
 
+                ->addColumn('tagline', function ($explore) {
+                    return $explore->tagline;
+                })
+
                 ->addColumn('action', function ($explore) {
                     $editUrl = route('admin.explore.edit', $explore->id);
                     return '
@@ -42,7 +46,7 @@ class ExploreController extends Controller
                 ';
                 })
 
-                ->rawColumns(['title', 'description', 'image', 'action'])
+                ->rawColumns(['title', 'description', 'image', 'tagline', 'action'])
                 ->make(true);
         }
 
@@ -56,16 +60,23 @@ class ExploreController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
             'image' => 'required|image|mimes:jpg,jpeg,png'
         ]);
 
         $explore = new Explore();
 
-        $explore->title = $request->title;
-        $explore->description = $request->description;
+        $hasExistingTagline = Explore::query()->whereNotNull('tagline')->exists();
+        if ($hasExistingTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $explore->title = $validated['title'];
+        $explore->description = $validated['description'];
+        $explore->tagline = $validated['tagline'] ?? null;
 
         if ($request->hasFile('image')) {
 
@@ -92,15 +103,25 @@ class ExploreController extends Controller
     {
         $explore = Explore::findOrFail($id);
 
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'tagline' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png'
         ]);
 
-        $explore->title = $request->title;
+        $hasOtherTagline = Explore::query()
+            ->where('id', '!=', $explore->id)
+            ->whereNotNull('tagline')
+            ->exists();
 
-        // remove HTML tags
-        $explore->description = strip_tags($request->description);
+        if ($hasOtherTagline) {
+            $validated['tagline'] = null;
+        }
+
+        $explore->title = $validated['title'];
+        $explore->description = $validated['description'];
+        $explore->tagline = $validated['tagline'] ?? null;
 
         if ($request->hasFile('image')) {
 
@@ -131,7 +152,9 @@ class ExploreController extends Controller
 
         $explore->delete();
 
-        return redirect()->route('admin.explore.index')
-            ->with('success', 'Explore deleted successfully');
+        return response()->json([
+            'success' => true,
+            'message' => 'Explore deleted successfully'
+        ]);
     }
 }

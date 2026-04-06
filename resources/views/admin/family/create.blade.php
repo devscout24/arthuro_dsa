@@ -1,6 +1,6 @@
 @extends('backend.app')
 
-@section('title', 'Add Carrer')
+@section('title', 'Add Family')
 
 @section('content')
     <div class="container-fluid mt-4">
@@ -8,7 +8,7 @@
         <div class="card shadow-sm">
 
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h4 class="card-title mb-0">Add Carrer</h4>
+                <h4 class="card-title mb-0">Add Family</h4>
                 <a href="{{ route('admin.family.index') }}" class="btn btn-primary btn-sm">
                     Family List
                 </a>
@@ -44,6 +44,16 @@
                             <textarea name="description" class="form-control summernote" placeholder="Enter description">{{ old('description') }}</textarea>
 
                             @error('description')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Button</label>
+                            <input type="text" name="button" class="form-control" placeholder="Enter button text"
+                                value="{{ old('button') }}">
+
+                            @error('button')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>

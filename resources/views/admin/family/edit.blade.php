@@ -54,6 +54,17 @@
                             @enderror
                         </div>
 
+                        <div class="col-12">
+                            <label class="form-label">Button</label>
+
+                            <input type="text" class="form-control" name="button"
+                                value="{{ old('button', $family->button) }}">
+
+                            @error('button')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
 
                         <div class="col-12">
 

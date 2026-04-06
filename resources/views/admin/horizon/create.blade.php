@@ -30,6 +30,11 @@
                     <input type="file" name="image" class="form-control">
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tagline (Only One Time)</label>
+                    <input type="text" name="tagline" class="form-control" value="{{ old('tagline') }}">
+                </div>
+
                 <button type="submit" class="btn btn-primary">Submit</button>
 
             </form>

@@ -39,6 +39,14 @@
 
                     <div class="col-md-6">
 
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Title (Only One Time)</label>
+                            <input type="text" name="title" class="form-control" value="{{ old('title', $partner->title) }}">
+                            @error('title')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                         {{-- Upload New Image --}}
                         <div class="mb-4">
                             <label class="form-label fw-bold">Upload New Image</label>

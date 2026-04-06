@@ -41,6 +41,16 @@
                         required>
                 </div>
 
+                {{-- Tagline (Only One Record Will Keep It) --}}
+                <div class="mb-3">
+                    <label class="form-label">Tagline</label>
+                    <input 
+                        type="text" 
+                        name="tagline" 
+                        class="form-control"
+                        value="{{ old('tagline', $explore->tagline) }}">
+                </div>
+
                 {{-- Description --}}
                 <div class="mb-3">
                     <label class="form-label">Description</label>
